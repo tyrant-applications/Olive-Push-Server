@@ -9,7 +9,7 @@ $headers = array(
 'Authorization:key=AIzaSyDktZ4hsSv2SbwHPUhy22CJh2jcn81qdgw'
 );
 
-$database = new medoo([
+$database = new medoo(array(
 	// required
 	'database_type' => 'mysql',
 	'database_name' => $DB_NAME,
@@ -18,11 +18,11 @@ $database = new medoo([
 	'password' => $DB_PASSWORD,
 	'charset' => $DB_CHARSET,
  	'port' => 3306
-]);
+));
  
 
 #Get Android Push Messages
-$filter = ["AND" => ["processed" => false,"device_type" => 1], "LIMIT" => 100];
+$filter = array("AND" => array("processed" => false,"device_type" => 1), "LIMIT" => 100);
 $datas = $database->select("controller_pushnotifications", "*",$filter);
 
 
@@ -46,7 +46,7 @@ foreach($datas as $msg){
 		if(is_array($response) && array_key_exists("success", $response)){
 			if($response["success"] == 1){
 				//success
-				$database->update("controller_pushnotifications",["processed" => true] ,["id" => $msg["id"]]);
+				$database->update("controller_pushnotifications",array("processed" => true) ,array("id" => $msg["id"]));
 			}else{
 				//fail
 			}
