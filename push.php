@@ -1,5 +1,6 @@
 <?php
 
+
 require  'medoo.min.php';
 require  'settings.php';
 
@@ -32,6 +33,7 @@ foreach($datas as $msg){
 	$arr['registration_ids'][0] = $msg["device_id"];
 	
 	try{
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,    'https://android.googleapis.com/gcm/send');
 		curl_setopt($ch, CURLOPT_HTTPHEADER,  $headers);
@@ -41,9 +43,13 @@ foreach($datas as $msg){
 		curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($arr));
 		$response_json = curl_exec($ch);
 		$response = json_decode($response_json, true);
-		if($response["success"] == 1){
-			//success
-			$database->update("controller_pushnotifications",["processed" => true] ,["id" => $msg["id"]]);
+		if(is_array($response) && array_key_exists("success", $response)){
+			if($response["success"] == 1){
+				//success
+				$database->update("controller_pushnotifications",["processed" => true] ,["id" => $msg["id"]]);
+			}else{
+				//fail
+			}
 		}else{
 			//fail
 		}
