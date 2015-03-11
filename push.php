@@ -27,8 +27,7 @@ $datas = $database->select("controller_pushnotifications", "*",$filter);
 
 foreach($datas as $msg){
 	$arr   = array();
-	$arr['data'] = array();
-	$arr['data']['contents'] = $msg["contents"];
+	$arr['data'] = json_decode($msg["contents"], true);
 	$arr['registration_ids'] = array();
 	$arr['registration_ids'][0] = $msg["device_id"];
 	
