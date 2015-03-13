@@ -7,7 +7,7 @@ import urllib2
 import json
 
 import MySQLdb
-
+import settings
 
 def get_notifications(db):
 	cur = db.cursor()
@@ -43,7 +43,7 @@ def finish_notifications(db, noti):
 	db.commit()		
 
 def do_main():
-	db = MySQLdb.connect(host="localhost", user="root", passwd="",db="tyrant")
+	db = MySQLdb.connect(host=settings.DB_HOST, user=settings.DB_USER, passwd=settings.DB_PASS,db=settings.DB_NAME)
 	while True:
 		notis = get_notifications(db)
 		print notis
