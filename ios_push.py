@@ -25,7 +25,7 @@ def send_notifications(device_id, contents):
 		data = json.loads(contents)
 		msg = data['author'] + ': ' + data['contents']
 		apns = APNs(use_sandbox=True, cert_file=settings.CERT_PEM, key_file=settings.KEY_PEM)
-		payload = Payload(alert=msg, sound="default", badge=1)
+		payload = Payload(alert=msg, sound="default", badge=data['unread_cnt'])
 		apns.gateway_server.send_notification(device_id, payload)
 	except Exception as e:
 		print str(e)
